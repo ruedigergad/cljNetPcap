@@ -1,5 +1,5 @@
-;(defproject cljNetPcap "1.5.0"
-(defproject cljNetPcap "1.6.0-SNAPSHOT"
+;(defproject cljNetPcap "1.6.0"
+(defproject cljNetPcap "1.7.0-SNAPSHOT"
   :description "cljNetPcap is a wrapper/adapter/facade (No matter how you wanna call it.) 
                 around jNetPcap that enables and eases packet capturing with Clojure."
   :dependencies [[org.clojure/clojure "1.4.0"]
