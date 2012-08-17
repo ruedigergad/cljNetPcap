@@ -71,7 +71,9 @@
     (pcap-lib-path l)))
 
 (defn extract-native-libs []
-  (when-not (dir-exists? (native-lib-dir))
+  (do
+    (if (dir-exists? (native-lib-dir))
+      (rm-native-lib-dir))
     (mk-native-lib-dir)
     (extract-native-lib pcap080)
     (extract-native-lib pcap100)))
