@@ -53,9 +53,10 @@
                            (arg-map :interface) 
                            (arg-map :filter))
               shutdown-fn (fn [] (stop-cljnetpcap cljnetpcap))]
-          (println "Started cljNetPcap."
-                   "To stop sniffing and exit send SIGKILL or SIGINT " 
-                   "(Which should be translated to SIGKILL as we do not have any handlers installed.)"
-                   "(e.g., by pressing CTRL-C) to the process.")
-          (-> (Runtime/getRuntime) (.addShutdownHook (Thread. shutdown-fn))))))))
+          (println "cljNetPcap standalone executable started.\nType \"q\" followed by <Return> to quit: ")
+          ;;; Running the main from, e.g., leiningen results in stdout not being properly accessible.
+          ;;; Hence, this will not work when run this way but works when run from a jar via "java -jar ...".
+          (while (not= "q" (read-line))
+            (println "Type \"q\" followed by <Return> to quit: "))
+          (shutdown-fn))))))
 
