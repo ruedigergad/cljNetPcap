@@ -96,12 +96,14 @@
    new packets are available for being processed."
   (let [running (ref true)
         run-fn (fn [] (while @running 
-                        (forwarder-fn (try (.take queue)
-                                        (catch Exception e
+                        (let [packet (try (.take queue)
+                                       (catch Exception e
                         ;;; Only throw exception if we still should be running. 
                         ;;; If we get this exception when @running is already
                         ;;; false then we ignore the exception.
-                                          (if @running (throw e)))))))
+                                         (if @running (throw e))))]
+                          (if packet
+                            (forwarder-fn packet)))))
         forwarder-thread (doto (Thread. run-fn) (.setDaemon true) (.start))]
     (fn [k]
       (cond
