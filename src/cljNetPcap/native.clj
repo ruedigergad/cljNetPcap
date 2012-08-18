@@ -58,7 +58,8 @@
   (mkdir (native-lib-dir)))
 
 (defn rm-native-lib-dir []
-  (rmdir (native-lib-dir)))
+  (if (dir-exists? (native-lib-dir))
+    (rmdir (native-lib-dir))))
 
 (defn copy-resource-to-file [source target]
   (let [in (-> source (resource) (.openStream))
@@ -70,10 +71,17 @@
     (pcap-jar-path l)
     (pcap-lib-path l)))
 
+(defn remove-native-libs []
+  (if (file-exists? (pcap-lib-path pcap080))
+    (rm (pcap-lib-path pcap080)))
+  (if (file-exists? (pcap-lib-path pcap100))
+    (rm (pcap-lib-path pcap100)))
+  (rm-native-lib-dir))
+
 (defn extract-native-libs []
   (do
     (if (dir-exists? (native-lib-dir))
-      (rm-native-lib-dir))
+      (remove-native-libs))
     (mk-native-lib-dir)
     (extract-native-lib pcap080)
     (extract-native-lib pcap100)))
@@ -85,11 +93,6 @@
 (defn extract-and-load-native-libs []
   (extract-native-libs)
   (load-native-libs))
-
-(defn remove-native-libs []
-  (rm (pcap-lib-path pcap080))
-  (rm (pcap-lib-path pcap100))
-  (rm-native-lib-dir))
 
 (extract-and-load-native-libs)
 
