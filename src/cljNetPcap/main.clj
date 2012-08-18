@@ -60,5 +60,6 @@
           ;;; Hence, this will not work when run this way but works when run from a jar via "java -jar ...".
           (while (not= "q" (read-line))
             (println "Type \"q\" followed by <Return> to quit: "))
-          (shutdown-fn))))))
+          (shutdown-fn)
+          (println "Leaving (-main [& args] ...)."))))))
 
