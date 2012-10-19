@@ -4,7 +4,7 @@
                 around jNetPcap that enables and eases packet capturing with Clojure."
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.cli "0.2.1"]
-                 [cljAcmeUtils "1.6.0"]
+                 [cljAcmeUtils "1.7.0"]
                  [jnetpcap "1.4.r1390-1a"]]
   :main cljNetPcap.main
   :java-source-path "src"

@@ -70,3 +70,10 @@
         pcap (create-and-activate-pcap lo)]
     (create-and-set-filter pcap filter-string)))
 
+(deftest test-create-get-stat-fn
+  (let [pcap (create-and-activate-pcap lo)
+        stat-fn (create-stat-fn pcap)]
+    (is (not (nil? stat-fn)))
+    (is (not (nil? (stat-fn))))
+    (println (stat-fn))))
+

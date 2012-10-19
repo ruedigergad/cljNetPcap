@@ -23,8 +23,9 @@
           such as listing network devices, creating and setting filters, or 
           creating, starting, and stopping an pcap instance."} 
   cljNetPcap.pcap
+  (:use cljAcmeUtils.util)
   (:import (java.util ArrayList) 
-           (org.jnetpcap Pcap PcapBpfProgram PcapIf)))
+           (org.jnetpcap Pcap PcapBpfProgram PcapIf PcapStat)))
 
 
 (def ^:dynamic *buffer-size* (int (Math/pow 2 27)))
@@ -114,4 +115,11 @@
    For details see create-filter and set-filter."
   (let [f (create-filter pcap filter-string)]
     (set-filter pcap f)))
+
+(defn create-stat-fn [pcap]
+  (let [pcap-stats (PcapStat.)]
+    (fn []
+      (if (= 0 (.stats pcap pcap-stats))
+        (.toString pcap-stats)
+        (print-err-ln (.getErr pcap))))))
 
