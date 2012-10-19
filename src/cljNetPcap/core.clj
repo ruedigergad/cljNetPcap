@@ -49,10 +49,12 @@
           handler-fn (fn [p u] 
                        (if-not (nil? p)
                          (.offer queue (create-packet p u))))
-          sniffer (create-and-start-sniffer pcap handler-fn)]
+          sniffer (create-and-start-sniffer pcap handler-fn)
+          stat-fn (create-stat-fn pcap)]
       (fn [k]
         (cond
-          (= k :stop) (do 
+          (= k :stop) (do
+                        (print-err-ln (stat-fn))
                         (stop-sniffer sniffer)
                         (stop-forwarder forwarder)))))))
 
