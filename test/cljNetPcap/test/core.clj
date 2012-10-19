@@ -27,7 +27,7 @@
 
 (def receive-delay 1000)
 
-(deftest cljnetpcap
+(deftest cljnetpcap-test
   (let [was-run (prepare-flag)
         forwarder-fn (fn [_] (set-flag was-run))
         filter-expression ""
