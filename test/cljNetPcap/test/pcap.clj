@@ -75,5 +75,6 @@
         stat-fn (create-stat-fn pcap)]
     (is (not (nil? stat-fn)))
     (is (not (nil? (stat-fn))))
-    (println (stat-fn))))
+    (println (stat-fn)
+    (close-pcap pcap))))
 
