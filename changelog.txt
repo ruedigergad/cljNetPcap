@@ -3,4 +3,5 @@ master
   - Update jnetpcap to 1.4.r1390-1
   - Add function for querying stats.
   - Output stats on shutdown.
+  - Add option to output stats in regular intervals.
 
