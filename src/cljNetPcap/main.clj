@@ -26,6 +26,7 @@
         clojure.tools.cli
         cljNetPcap.core
         cljNetPcap.native)
+  (:import (java.util.concurrent Executors TimeUnit))
   (:gen-class))
 
 (defn -main [& args]
@@ -38,7 +39,14 @@
                             "Defaults to the empty String which means that all " 
                             "packets are captured.") 
                        :default ""]
-                ["-h" "--help" "Print this help." :flag true])
+                      ["-S" "--stats"
+                       (str "Print stats to stderr in a regular interval."
+                            "The interval is given as parameter in milliseconds."
+                            "Values smaller equal 0 mean that no stats are printed."
+                            "Defaults to 0.")
+                       :default 0
+                       :parse-fn #(Integer. %)]
+                      ["-h" "--help" "Print this help." :flag true])
         arg-map (cli-args 0)
         help-string (cli-args 2)]
     (if (arg-map :help)
@@ -52,12 +60,21 @@
 ;                           stdout-forwarder-fn 
                            (arg-map :interface) 
                            (arg-map :filter))
+              stat-interval (arg-map :stats)
+              executor (Executors/newSingleThreadScheduledExecutor)
               shutdown-fn (fn [] (do
                                    (println "cljNetPcap is shuting down...")
+                                   (when (> stat-interval 0)
+                                     (println "Stopping stat output.")
+                                     (.shutdown executor))
+                                   (print-stat-cljnetpcap cljnetpcap)
                                    (stop-cljnetpcap cljnetpcap)
                                    (println "Removing temporarily extracted native libs...")
                                    (remove-native-libs)))]
           (println "cljNetPcap standalone executable started.\nType \"q\" followed by <Return> to quit: ")
+          (when (> stat-interval 0)
+            (println "Printing stats to stderr in intervalls of" stat-interval "ms.")
+            (.scheduleAtFixedRate executor #(print-stat-cljnetpcap cljnetpcap) 0 stat-interval TimeUnit/MILLISECONDS))
           ;;; Running the main from, e.g., leiningen results in stdout not being properly accessible.
           ;;; Hence, this will not work when run this way but works when run from a jar via "java -jar ...".
           (while (not= "q" (read-line))

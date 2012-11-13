@@ -26,8 +26,7 @@
         cljNetPcap.native
         cljNetPcap.pcap
         cljNetPcap.sniffer
-        cljAcmeUtils.util
-        ruiyun.tools.timer)
+        cljAcmeUtils.util)
   (:import (java.net InetAddress)
            (java.util.concurrent LinkedBlockingQueue)
            (org.jnetpcap.packet PcapPacket)
@@ -52,14 +51,16 @@
                          (.offer queue (create-packet p u))))
           sniffer (create-and-start-sniffer pcap handler-fn)
           stat-fn (create-stat-fn pcap)
-          stat-print-fn #(print-err-ln (stat-fn))
-          stat-timer (timer "Capture stats output timer")]
+          stat-print-fn #(print-err-ln "pcap-stats:" (stat-fn))]
       (fn [k]
         (cond
+          (= k :stat) (stat-print-fn)
           (= k :stop) (do
-                        (stat-print-fn)
                         (stop-sniffer sniffer)
                         (stop-forwarder forwarder)))))))
+
+(defn print-stat-cljnetpcap [cljnetpcap]
+  (cljnetpcap :stat))
 
 (defn stop-cljnetpcap [cljnetpcap]
   (cljnetpcap :stop))
