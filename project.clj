@@ -5,8 +5,7 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.cli "0.2.2"]
                  [cljAcmeUtils "1.7.0"]
-                 [jnetpcap "1.4.r1390-1a"]
-                 [ruiyun/tools.timer "1.0.0-SNAPSHOT"]]
+                 [jnetpcap "1.4.r1390-1a"]]
   :main cljNetPcap.main
   :java-source-path "src"
   :omit-source true)
