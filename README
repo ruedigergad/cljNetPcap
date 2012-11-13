@@ -1,5 +1,8 @@
 # cljNetPcap
 
+This package has been moved to clj-net-pcap: https://github.com/ruedigergad/clj-net-pcap
+You can also get in from clojars.org now: https://clojars.org/clj-net-pcap
+
 jNetPcap is a wrapper/adapter/facade (No matter how you wanna call it.)
 around jNetPcap that enables and eases packet capturing with Clojure.
 

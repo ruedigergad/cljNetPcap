@@ -19,7 +19,7 @@
 
 (ns
   ^{:author "Ruediger Gad",
-    :doc "Functions etc. for extracting etc. native libraries from jar files."} 
+    :doc "Functions etc. for extracting, loading etc. native libraries from the jar file."} 
   cljNetPcap.native
   (:use clojure.java.io 
         cljAcmeUtils.util)
