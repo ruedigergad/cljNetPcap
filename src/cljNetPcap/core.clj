@@ -128,7 +128,11 @@
         [eth 
          (src-dst eth)]
         [arp
-         {"operationDescription" (.operationDescription arp)}]
+         {"operationDescription" (.operationDescription arp)
+          "targetMac" (prettify-addr-array (.tha arp))
+          "targetIp" (prettify-addr-array (.tpa arp))
+          "sourceMac" (prettify-addr-array (.sha arp))
+          "sourceIp" (prettify-addr-array (.spa arp))}]
         [ip4
          (src-dst ip4)
          {"id" (.id ip4)
